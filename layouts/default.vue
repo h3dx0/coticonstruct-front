@@ -1,20 +1,30 @@
 <template>
   <div>
-    <Nuxt />
+    <b-navbar type="dark" variant="info">
+      <b-navbar-nav>
+        <b-nav-item href="#">Cotizador</b-nav-item>
+        <b-nav-item href="#">Administrador</b-nav-item>
+        <!-- Navbar dropdowns -->
+        <b-nav-item-dropdown text="Cotizar" right>
+          <b-dropdown-item href="/uh02/">UH02</b-dropdown-item>
+        </b-nav-item-dropdown>
+
+        <b-nav-item-dropdown text="Usuario" right>
+          <b-dropdown-item href="#">Account</b-dropdown-item>
+          <b-dropdown-item href="#">Settings</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+    </b-navbar>
+    <div class="container-fluid">
+      <Nuxt />
+    </div>
   </div>
 </template>
 
 <style>
 html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -29,34 +39,5 @@ html {
 *::after {
   box-sizing: border-box;
   margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
 }
 </style>
