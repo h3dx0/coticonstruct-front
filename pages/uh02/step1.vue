@@ -46,21 +46,26 @@
         </b-form>
       </b-card-body>
       <b-button href="#" variant="outline-danger">Cancelar</b-button>
-      <b-button href="/uh02/paso2" variant="primary">Siguiente</b-button>
+      <b-button @click="saveNext()" variant="primary">Siguiente</b-button>
     </b-card>
   </div>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
       colorSelected: null,
-      colors: ["blanco", "rojo"],
-      installAreaDimmensions: 0,
+      colors: ["blanco", "rojo"], //TODO: get from ENDPOINT?
     };
   },
   computed: {
+    installAreaDimmensions() {
+      return this.$store.state.installAreaDimmensions != 0
+        ? this.$store.state.installAreaDimmensions
+        : 0;
+    },
     installAreaDimmensionsExtra() {
       return this.installAreaDimmensions * 1.1;
     },
@@ -73,6 +78,16 @@ export default {
     comprobationArea() {
       return Math.ceil(this.totalEndPieces * 0.33672);
     },
+  },
+  methods: {
+    saveNext() {
+      this.$store.commit(
+        "setInstallAreaDimmensions",
+        this.installAreaDimmensions
+      );
+      this.$router.push("step2");
+    },
+    ...mapMutations({}),
   },
 };
 </script>

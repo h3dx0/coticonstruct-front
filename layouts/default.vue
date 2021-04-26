@@ -6,7 +6,7 @@
         <b-nav-item href="#">Administrador</b-nav-item>
         <!-- Navbar dropdowns -->
         <b-nav-item-dropdown text="Cotizar" right>
-          <b-dropdown-item href="/uh02/">UH02</b-dropdown-item>
+          <b-dropdown-item href="/uh02/step1">UH02</b-dropdown-item>
         </b-nav-item-dropdown>
 
         <b-nav-item-dropdown text="Usuario" right>
