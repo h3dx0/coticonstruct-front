@@ -13,7 +13,7 @@
             </div>
             <div class="col-sm-4">
               <label for="color" class="mr-2">M2 de area de instación:</label>
-              <b-form-input v-model="installAreaDimmensions"></b-form-input>
+              <b-form-input v-model="installArea"></b-form-input>
             </div>
 
             <div class="col-sm-4">
@@ -40,13 +40,13 @@
 
             <div class="col-sm-4">
               <label for="color" class="mr-2">COMPROBACIÓN M2:</label>
-              <b-form-input disabled v-model="comprobationArea"></b-form-input>
+              <b-form-input v-model="comprobationArea"></b-form-input>
             </div>
           </div>
         </b-form>
       </b-card-body>
       <b-button href="#" variant="outline-danger">Cancelar</b-button>
-      <b-button @click="saveNext()" variant="primary">Siguiente</b-button>
+      <b-button @click="onSave()" variant="primary">Siguiente</b-button>
     </b-card>
   </div>
 </template>
@@ -57,17 +57,19 @@ export default {
   data() {
     return {
       colorSelected: null,
+      installArea: 0,
       colors: ["blanco", "rojo"], //TODO: get from ENDPOINT?
     };
   },
-  computed: {
-    installAreaDimmensions() {
-      return this.$store.state.installAreaDimmensions != 0
+  mounted() {
+    this.installArea =
+      this.$store.state.installAreaDimmensions != 0
         ? this.$store.state.installAreaDimmensions
         : 0;
-    },
+  },
+  computed: {
     installAreaDimmensionsExtra() {
-      return this.installAreaDimmensions * 1.1;
+      return this.installArea * 1.1;
     },
     endPieces() {
       return this.installAreaDimmensionsExtra / 0.33672;
@@ -80,11 +82,8 @@ export default {
     },
   },
   methods: {
-    saveNext() {
-      this.$store.commit(
-        "setInstallAreaDimmensions",
-        this.installAreaDimmensions
-      );
+    onSave() {
+      this.$store.commit("setInstallAreaDimmensions", this.installArea);
       this.$router.push("step2");
     },
     ...mapMutations({}),

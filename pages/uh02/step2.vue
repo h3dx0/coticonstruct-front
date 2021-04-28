@@ -13,7 +13,7 @@
             </div>
             <div class="col-sm-4">
               <label for="color" class="mr-2">TC-2:</label>
-              <b-form-input disabled v-model="tc2"></b-form-input>
+              <b-form-input v-model="tc2"></b-form-input>
             </div>
           </div>
           <hr />
@@ -48,8 +48,10 @@
         </b-form>
       </b-card-body>
       <b-button href="#" variant="outline-danger">Cancelar</b-button>
-      <b-button @click="save('back')" variant="outline-primary">Atrás</b-button>
-      <b-button @click="save('next')" variant="primary">Siguiente</b-button>
+      <b-button @click="onSave('back')" variant="outline-primary"
+        >Atrás</b-button
+      >
+      <b-button @click="onSave('next')" variant="primary">Siguiente</b-button>
     </b-card>
   </div>
 </template>
@@ -58,7 +60,7 @@
 export default {
   data() {
     return {
-      installAreaDimmensions: 100,
+      installAreaDimmensions: 0,
       clipSelected: null,
       pijasColorSelected: null,
       pijasColors: [
@@ -79,13 +81,16 @@ export default {
       tapasDeck: 0,
     };
   },
+  mounted() {
+    this.installAreaDimmensions = this.$store.state.installAreaDimmensions;
+  },
   computed: {
     tc2() {
       return this.installAreaDimmensions * 21;
     },
   },
   methods: {
-    save(goTo) {
+    onSave(goTo) {
       if (goTo == "back") {
         this.$router.push("step1");
       } else {

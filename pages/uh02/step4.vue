@@ -1,32 +1,45 @@
 <template>
   <div class="mt-5">
-    <b-card header="Nueva cotizacion UH02" header-tag="header" title="Paso1">
+    <b-card header="Nueva cotizacion UH02" header-tag="header" title="Paso4">
       <b-card-body>
         <b-form>
           <div class="row">
-            <div class="col-sm-2">
-              <label for="color" class="mr-2">Andamios:</label>
-              <b-form-input v-model="andamios"></b-form-input>
+            <div class="col-sm-3">
+              <label for="color" class="mr-2">Materiales:</label>
+              <b-form-select
+                v-model="extraOptionSelected"
+                :options="extraOptions"
+                @change="onAddExtraOption()"
+              ></b-form-select>
             </div>
-            <div class="col-sm-2">
-              <label for="color" class="mr-2">Pijas:</label>
-              <b-form-input v-model="amountPijas"></b-form-input>
-            </div>
-            <div class="col-sm-2">
-              <label for="color" class="mr-2">Taquetes:</label>
-              <b-form-input v-model="amountTaquetes"></b-form-input>
-            </div>
-            <div class="col-sm-2">
-              <label for="color" class="mr-2">Pintura y Thiner:</label>
-              <b-form-input v-model="amounPinturaThiner"></b-form-input>
-            </div>
-            <div class="col-sm-2">
-              <label for="color" class="mr-2">Gasolina:</label>
-              <b-form-input v-model="gasoline"></b-form-input>
-            </div>
-            <div class="col-sm-2">
-              <label for="color" class="mr-2">Costo Adicional:</label>
-              <b-form-input v-model="extraCost"></b-form-input>
+            <div class="col-sm-3">
+              <table class="table table-striped">
+                <thead>
+                  <th>Material</th>
+                  <th>Cantidad</th>
+                  <th>Acción</th>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(addedExtraOption, index) in addedExtraOptions"
+                    :key="addedExtraOption.value"
+                  >
+                    <td>{{ addedExtraOption.text }}</td>
+                    <td>
+                      <b-form-input
+                        v-model="addedExtraOption.qty"
+                      ></b-form-input>
+                    </td>
+                    <td>
+                      <b-button
+                        variant="outline-danger"
+                        @click="onDeleteOption(index)"
+                        >Borrar</b-button
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <hr />
@@ -42,7 +55,10 @@
         </b-form>
       </b-card-body>
       <b-button href="#" variant="outline-danger">Cancelar</b-button>
-      <b-button href="/uh02/resume" variant="primary">Siguiente</b-button>
+      <b-button @click="onSave('back')" variant="outline-primary"
+        >Atrás</b-button
+      >
+      <b-button @click="onSave('next')" variant="primary">Siguiente</b-button>
     </b-card>
   </div>
 </template>
@@ -51,28 +67,36 @@
 export default {
   data() {
     return {
-      pijaCost: 0.75,
-      taqueteCost: 0.5,
-      pinturaCost: 100,
-      thinerCost: 50,
-      gasoline: 0,
-      extraCost: 0,
       extraCostText: "",
+      extraOptionSelected: null,
+      extraOptions: [
+        //GET FROM ENDPOINT
+        { value: 1, text: "Andamios" },
+        { value: 2, text: "Pijas" },
+        { value: 3, text: "Taquetes" },
+      ],
+      addedExtraOptions: [],
     };
   },
-  computed: {
-    amountPijas() {
-      //10pzas * m2instalacion * costo
-      return 10 * 100 * this.pijaCost;
+  computed: {},
+  methods: {
+    onAddExtraOption() {
+      const option = this.extraOptions.find(
+        (item) => item.value === this.extraOptionSelected
+      );
+      console.log("OptionAdded", option);
+      option.qty = 0;
+      this.addedExtraOptions.push(option);
     },
-    amountTaquetes() {
-      //10pzas * m2instalacion * costo
-      return 10 * 100 * this.taqueteCost;
+    onDeleteOption(index) {
+      this.addedExtraOptions.splice(index, 1);
     },
-
-    amounPinturaThiner() {
-      //costo 1l pintura +  costo 1l tiner  * m2 instal
-      return (this.pinturaCost + this.thinerCost) * 100;
+    onSave(goTo) {
+      if (goTo == "back") {
+        this.$router.push("step3");
+      } else {
+        this.$router.push("resume");
+      }
     },
   },
 };
