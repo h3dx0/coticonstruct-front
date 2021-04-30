@@ -4,7 +4,7 @@ export default {
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-
+  loading: true,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'coti-construct-front',
@@ -51,7 +51,11 @@ export default {
     bootstrapVueCSS: false // Or `bvCSS: false`
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'https://secure-fjord-18067.herokuapp.com',
+    browserBaseURL: 'https://secure-fjord-18067.herokuapp.com',
+    progress: true
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
