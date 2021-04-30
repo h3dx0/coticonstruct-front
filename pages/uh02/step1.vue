@@ -4,24 +4,32 @@
       <b-card-body>
         <b-form>
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <label for="color" class="mr-2">Color:</label>
               <b-form-select
                 v-model="colorSelected"
                 :options="colors"
               ></b-form-select>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <label for="color" class="mr-2">M2 de area de instación:</label>
               <b-form-input v-model="installArea"></b-form-input>
             </div>
 
-            <div class="col-sm-4">
-              <label for="color" class="mr-2">M2 con desperdicio:</label>
-              <b-form-input
-                disabled
-                v-model="installAreaDimmensionsExtra"
-              ></b-form-input>
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-6">
+                  <label for="color" class="mr-2">% desperdicio:</label>
+                  <b-form-input v-model="extraArea"></b-form-input>
+                </div>
+                <div class="col-sm-6">
+                  <label for="color" class="mr-2">M2 con desperdicio:</label>
+                  <b-form-input
+                    disabled
+                    v-model="installAreaDimmensionsExtra"
+                  ></b-form-input>
+                </div>
+              </div>
             </div>
           </div>
           <hr />
@@ -40,7 +48,7 @@
 
             <div class="col-sm-4">
               <label for="color" class="mr-2">COMPROBACIÓN M2:</label>
-              <b-form-input v-model="comprobationArea"></b-form-input>
+              <b-form-input disabled v-model="comprobationArea"></b-form-input>
             </div>
           </div>
         </b-form>
@@ -57,19 +65,20 @@ export default {
   data() {
     return {
       colorSelected: null,
+      extraArea: 1.1,
       installArea: 0,
       colors: ["blanco", "rojo"], //TODO: get from ENDPOINT?
     };
   },
   mounted() {
     this.installArea =
-      this.$store.state.installAreaDimmensions != 0
-        ? this.$store.state.installAreaDimmensions
+      this.$store.state.uh02.installAreaDimmensions != 0
+        ? this.$store.state.uh02.installAreaDimmensions
         : 0;
   },
   computed: {
     installAreaDimmensionsExtra() {
-      return this.installArea * 1.1;
+      return this.installArea * this.extraArea;
     },
     endPieces() {
       return this.installAreaDimmensionsExtra / 0.33672;
@@ -83,10 +92,9 @@ export default {
   },
   methods: {
     onSave() {
-      this.$store.commit("setInstallAreaDimmensions", this.installArea);
+      this.$store.commit("uh02/setInstallAreaDimmensions", this.installArea);
       this.$router.push("step2");
     },
-    ...mapMutations({}),
   },
 };
 </script>

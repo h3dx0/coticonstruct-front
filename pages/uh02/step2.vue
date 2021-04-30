@@ -4,14 +4,18 @@
       <b-card-body>
         <b-form>
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <label for="color" class="mr-2">Clip Bastidor:</label>
               <b-form-select
                 v-model="clipSelected"
                 :options="clips"
               ></b-form-select>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
+              <label for="color" class="mr-2">Piezas/m2:</label>
+              <b-form-input v-model="piecesByMeter"></b-form-input>
+            </div>
+            <div class="col-sm-3">
               <label for="color" class="mr-2">TC-2:</label>
               <b-form-input v-model="tc2"></b-form-input>
             </div>
@@ -23,21 +27,10 @@
               <b-form-input v-model="mg"></b-form-input>
             </div>
             <div class="col-sm-6">
-              <div class="row">
-                <div class="col-sm-6">
-                  <label for="pijasColors" class="">Color Pijas Cabezas:</label>
-                  <b-form-select
-                    v-model="pijasColorSelected"
-                    :options="pijasColors"
-                  ></b-form-select>
-                </div>
-                <div class="col-sm-6">
-                  <label for="pijasCabezas" class="mr-2"
-                    >PIJAS CS CABEZA DE COLOR:</label
-                  >
-                  <b-form-input v-model="pijasCabezas"></b-form-input>
-                </div>
-              </div>
+              <label for="pijasCabezas" class="mr-2"
+                >PIJAS CS CABEZA DE COLOR:</label
+              >
+              <b-form-input v-model="pijasCabezas"></b-form-input>
             </div>
             <div class="col-sm-3">
               <label for="mg3" class="mr-2">PZAS TAPAS DECK:</label>
@@ -62,15 +55,9 @@ export default {
     return {
       installAreaDimmensions: 0,
       clipSelected: null,
+      pm2: 21,
       pijasColorSelected: null,
-      pijasColors: [
-        { value: null, text: "--Seleccione--" },
-        { value: 1, text: "IPE" },
-        { value: 2, text: "TEAK" },
-        { value: 3, text: "WALNUT" },
-        { value: 4, text: "ANTIQUE" },
-        { value: 5, text: "LIGHT GRAY" },
-      ],
+      piecesByMeter: 21,
       clips: [
         { value: null, text: "--Seleccione--" },
         { value: 1, text: "Madera" },
@@ -82,11 +69,11 @@ export default {
     };
   },
   mounted() {
-    this.installAreaDimmensions = this.$store.state.installAreaDimmensions;
+    this.installAreaDimmensions = this.$store.state.uh02.installAreaDimmensions;
   },
   computed: {
     tc2() {
-      return this.installAreaDimmensions * 21;
+      return this.installAreaDimmensions * this.piecesByMeter;
     },
   },
   methods: {
