@@ -62,12 +62,16 @@
 <script>
 import { mapMutations } from "vuex";
 export default {
+  async asyncData({ $axios, $config }) {
+    const colors = await $axios.$get(`/colors`);
+    return { colors };
+  },
   data() {
     return {
       colorSelected: null,
       extraArea: 1.1,
       installArea: 0,
-      colors: ["blanco", "rojo"], //TODO: get from ENDPOINT?
+      colors: [],
     };
   },
   mounted() {
